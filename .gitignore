@@ -64,3 +64,4 @@ target/
 
 # Notebooks used as toys
 notebooks/
+.ipynb_checkpoints
