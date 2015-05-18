@@ -59,5 +59,8 @@ docs/_build/
 # PyBuilder
 target/
 
-# Notebooks
+# Rope
+.ropeproject/
+
+# Notebooks used as toys
 notebooks/
