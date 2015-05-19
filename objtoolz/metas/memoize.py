@@ -5,7 +5,6 @@
 '''
 
 from toolz import memoize
-from ..descriptors import HybridMappingStore
 from ..compat import wraps
 
 
@@ -21,16 +20,15 @@ def _default_cache_key(args, kwargs):
 
 
 class Memoized(type):
-    # setting these attributes on the metaclass prevents
-    # instances from the created classes from accessing them
-    # and provides a convenient centralized storage area for them
-    # also provide defaults in case an entry is deleted for some reason
+    """Metaclass for memoizing object instantiation. In Python 3 a cache type
+    and cacheing key can be specified at class creation like this:
 
-    # TODO: Subclassing Memoized without overriding these allows access.
-    #       Desired or not?
-    _cache = HybridMappingStore({}, default={})
-    _cache_key = HybridMappingStore({}, default=_default_cache_key)
+    .. code-block:: python
+        class MyClass(metaclass=Memoized, cache=OrderedDict())
 
+    However, in Python 2, they must be specified after the fact
+
+    """
     def __new__(mcls, name, bases, attrs, **kwargs):
         return super(Memoized, mcls).__new__(mcls, name, bases, attrs)
 
@@ -39,7 +37,7 @@ class Memoized(type):
             cache = {}
         cls._cache = cache
         cls._cache_key = key
-        super(Memoized, cls).__init__(name, bases, attrs)
+        return super(Memoized, cls).__init__(name, bases, attrs)
 
     def __call__(cls, *args, **kwargs):
         """Memoize actual object instantiation from the created class
