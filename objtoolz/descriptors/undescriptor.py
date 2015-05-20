@@ -81,10 +81,10 @@ class Undescriptor(Descriptor):
     # TODO: provide some sort of cache so the method resolution doesn't need
     #       to be preformed on *every* look up?
     def __init__(self, decorator, method=None):
+         # pose as decorator
+        update_wrapper(self, decorator)
         self._decorator = decorator
         self._method = method
-        # pose as decorator
-        update_wrapper(self, decorator)
 
     def __repr__(self):
         return repr(self._decorator)
@@ -107,10 +107,4 @@ class Undescriptor(Descriptor):
             raise AttributeError("No method loaded")
 
         method = undescript(self._method, inst, cls)
-
-        @wraps(method)
-        def wrapper(*a, **k):
-            return self._decorator(method)(*a, **k)
-
-        # cause closure to pose as wrapped method
-        return wrapper
+        return self._decorator(method)
