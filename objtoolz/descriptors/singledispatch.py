@@ -29,6 +29,6 @@ class SingleDispatch(Descriptor):
         """
         @wraps(self, updated=[])
         def binder(*args, **kwargs):
-            method = self.dispatch(args[0].__class__)
+            method = self._dispatcher.dispatch(args[0].__class__)
             return undescript(method, inst, cls)(*args, **kwargs)
         return binder
