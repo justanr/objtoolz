@@ -39,4 +39,4 @@ def method_kwargs_decorator(method):
     """Allows using kwargs_decorator to wrap methods and potentially other
     descriptors.
     """
-    return Undescriptor(kwargs_decorator. method)
+    return Undescriptor(kwargs_decorator, method)
