@@ -7,6 +7,7 @@
 from .curried import *
 from .final import *
 from .memoize import *
+from .namedmeta import *
 from .singleton import *
 
 

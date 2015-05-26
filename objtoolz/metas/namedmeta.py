@@ -17,6 +17,6 @@ class NamedMeta(type):
 
     def __new__(mcls, name, bases, attrs):
         for name, value in attrs.items():
-            if isinstance(value, NamedDescriptor) and not value.name:
+            if isinstance(value, NamedDescriptor) and value.name is None:
                 value.name = name
-            return super(NamedMeta, NamedMeta).__new__(mcls, name, bases, attrs)
+        return super(NamedMeta, NamedMeta).__new__(mcls, name, bases, attrs)

@@ -11,7 +11,7 @@ __all__ = ('NamedDescriptor',)
 
 
 class NamedDescriptor(Descriptor):
-    """Use with objtoolz.metas.HasNamedDescriptors to automatically link up
+    """Use with objtoolz.metas.NamedMeta to automatically link up
     the assigned attribute name to the descriptor's name attribute.
     """
     def __init__(self, name=None):
