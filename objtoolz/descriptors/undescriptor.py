@@ -5,7 +5,7 @@
     method
 """
 from .base import Descriptor
-from ..compat import update_wrapper, wraps
+from ..compat import update_wrapper
 
 __all__ = ('undescript', 'Undescriptor')
 
@@ -22,8 +22,15 @@ def undescript(method, inst, cls):
     deeper_down = None
 
     while deeper_down is not method:
-        method = method.__get__(inst, cls)
-        deeper_down = method.__get__(inst, cls)
+        try:
+            method = method.__get__(inst, cls)
+            deeper_down = method.__get__(inst, cls)
+        # hit something without __get__
+        # most likely a descriptor that returns itself
+        # when accessed through the class rather than an instance
+        # or a property returning its value
+        except AttributeError:
+            break
 
     return method
 
@@ -81,7 +88,7 @@ class Undescriptor(Descriptor):
     # TODO: provide some sort of cache so the method resolution doesn't need
     #       to be preformed on *every* look up?
     def __init__(self, decorator, method=None):
-         # pose as decorator
+        # pose as decorator
         update_wrapper(self, decorator)
         self._decorator = decorator
         self._method = method
