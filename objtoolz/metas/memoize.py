@@ -36,7 +36,10 @@ class Memoized(type):
         if cache is None:
             cache = {}
         cls._cache = cache
-        cls._cache_key = key
+
+        # wrap in staticmethod for PY2 support
+        # otherwise it's created as an UnboundMethod
+        cls._cache_key = staticmethod(key)
         return super(Memoized, cls).__init__(name, bases, attrs)
 
     def __call__(cls, *args, **kwargs):
