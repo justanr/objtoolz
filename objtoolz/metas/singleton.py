@@ -15,4 +15,8 @@ class Singleton(Final):
     subclasses should exist.
     """
     def __call__(cls, *args, **kwargs):
-        return super(Singleton, cls).__call__(*args, **kwargs)
+        try:
+            return cls.__inst
+        except AttributeError:
+            cls.__inst = super(Singleton, cls).__call__(*args, **kwargs)
+            return cls.__inst
