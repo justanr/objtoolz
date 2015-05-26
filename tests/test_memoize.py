@@ -1,5 +1,5 @@
 from objtoolz.metas.memoize import Memoized, _default_cache_key
-from objtoolz.metas import with_metaclass
+from objtoolz.compat import with_metaclass
 
 
 def test_default_cache_key():

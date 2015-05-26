@@ -1,6 +1,6 @@
 from toolz import curry
 from objtoolz.metas.curried import Curried
-from objtoolz.metas import with_metaclass
+from objtoolz.compat import with_metaclass
 
 
 class Dummy(with_metaclass(Curried)):
